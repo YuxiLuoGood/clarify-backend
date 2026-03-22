@@ -56,7 +56,7 @@
 ### Run locally
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/clarify-backend.git
+git clone https://github.com/YuxiLuoGood/clarify-frontend.git
 cd clarify-backend
 docker-compose up --build
 ```
@@ -100,4 +100,4 @@ It uses the last 6 months of expense data as training points, with month index a
 
 ## Frontend
 
-The React + TypeScript frontend is available at [clarify-frontend](https://github.com/YOUR_USERNAME/clarify-frontend).
+The React + TypeScript frontend is available at [clarify-frontend](https://github.com/YuxiLuoGood/clarify-frontend.git).
