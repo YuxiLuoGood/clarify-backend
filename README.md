@@ -2,6 +2,8 @@
 
 > A personal finance REST API built with Java Spring Boot, featuring JWT authentication, expense tracking, and ML-powered spending forecasts.
 
+🌐 **Live Demo**: https://clarify-frontend-production.up.railway.app
+
 ## Tech Stack
 
 | Layer | Technology |
