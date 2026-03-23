@@ -26,6 +26,25 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
+    // Completely bypass Spring Security for Swagger paths
+    @Bean
+    public org.springframework.security.web.firewall.HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        org.springframework.security.web.firewall.StrictHttpFirewall firewall =
+            new org.springframework.security.web.firewall.StrictHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
+    }
+
+    @Bean
+    public org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+            .requestMatchers("/swagger-ui/**")
+            .requestMatchers("/swagger-ui.html")
+            .requestMatchers("/v3/api-docs")
+            .requestMatchers("/v3/api-docs/**")
+            .requestMatchers("/webjars/**");
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
