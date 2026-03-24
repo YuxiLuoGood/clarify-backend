@@ -24,10 +24,10 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/swagger-ui") ||
-               path.startsWith("/v3/api-docs") ||
-               path.startsWith("/webjars") ||
-               path.equals("/swagger-ui.html");
+        return path.startsWith("/api/docs") ||
+               path.startsWith("/api/swagger") ||
+               path.startsWith("/swagger-ui") ||
+               path.startsWith("/webjars");
     }
 
     @Override
