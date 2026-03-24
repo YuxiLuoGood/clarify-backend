@@ -22,19 +22,19 @@ public class JwtFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/swagger-ui") ||
+               path.startsWith("/v3/api-docs") ||
+               path.startsWith("/webjars") ||
+               path.equals("/swagger-ui.html");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain)
             throws ServletException, IOException {
-
-        // Skip JWT check for Swagger paths
-        String path = request.getRequestURI();
-        if (path.startsWith("/swagger-ui") ||
-            path.startsWith("/v3/api-docs") ||
-            path.startsWith("/webjars")) {
-            chain.doFilter(request, response);
-            return;
-        }
 
         // 1. 从请求头里拿 token
         String header = request.getHeader("Authorization");
