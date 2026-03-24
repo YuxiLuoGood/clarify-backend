@@ -24,3 +24,6 @@ jwt:
 
 server:
   port: 8080
+
+google:
+  client-id: 313702396145-51u19qi1l6nb37ggfecpelbbsofhcndf.apps.googleusercontent.com
