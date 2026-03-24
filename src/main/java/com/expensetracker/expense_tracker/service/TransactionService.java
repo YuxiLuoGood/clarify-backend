@@ -1,14 +1,17 @@
 package com.expensetracker.expense_tracker.service;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.expensetracker.expense_tracker.dto.TransactionRequest;
 import com.expensetracker.expense_tracker.model.Transaction;
 import com.expensetracker.expense_tracker.model.User;
 import com.expensetracker.expense_tracker.repository.TransactionRepository;
 import com.expensetracker.expense_tracker.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +19,7 @@ public class TransactionService {
 
     private final TransactionRepository txRepo;
     private final UserRepository userRepo;
+    private final BudgetAlertService budgetAlertService;
 
     // 查某个月的所有交易
     public List<Transaction> findAll(String email, String month) {
@@ -39,7 +43,14 @@ public class TransactionService {
             .date(req.getDate())
             .build();
 
-        return txRepo.save(tx);
+        Transaction saved = txRepo.save(tx);
+
+        // Check budget and send WebSocket alert if exceeded
+        if ("EXPENSE".equals(req.getType())) {
+            budgetAlertService.checkAndAlert(email, req.getCategory());
+        }
+
+        return saved;
     }
 
     // 修改一条交易
