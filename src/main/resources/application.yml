@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: clarify-backend
+  # Override with SPRING_DATASOURCE_URL / _USERNAME / _PASSWORD
+  datasource:
+    url: jdbc:postgresql://localhost:5432/expensedb
+    username: postgres
+    password: lllw9208
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+
+# /api/health (liveness + readiness), kept under /api like the other public URLs
+management:
+  endpoints:
+    web:
+      base-path: /api
+      discovery:
+        enabled: false
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  api-docs:
+    path: /api/docs
+  swagger-ui:
+    path: /api/swagger
+
+clarify:
+  jwt:
+    secret: ${JWT_SECRET:dev-secret-key-change-in-production-32chars!!}
+    expiration: 24h
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:313702396145-51u19qi1l6nb37ggfecpelbbsofhcndf.apps.googleusercontent.com}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:3000,https://clarify-frontend-production.up.railway.app}
+  # Monthly budget per expense category (USD)
+  budget:
+    default-limit: 500
+    limits:
+      FOOD: 300
+      TRANSPORT: 200
+      SHOPPING: 500
+      BILLS: 1000
+      OTHER: 200
